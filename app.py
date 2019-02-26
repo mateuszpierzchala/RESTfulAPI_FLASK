@@ -21,6 +21,31 @@ def get_books():
 
     return jsonify({'books':books})
 
+
+
+# POST /books
+# {
+#  'name':'F',
+#  'price':6.99,
+#  'isbn':0123456789
+#}
+
+def validBookObject(bookObject):
+    if ("name" in dictionaryObject and "price" in bookObject and "isbn" in bookObject):
+        return True
+    else:
+        return False 
+
+
+@app.route('/books', methods=['POST'])
+def add_book():
+    request_data = request.get_json()
+    if(validBookObject(request_data)):
+       books.insert(0,request_data)
+       return "True"
+    else:
+       return "False"
+
 @app.route ('/books/<int:isbn>')
 def get_book_by_isbn(isbn):
     return_value = {}
